@@ -9,6 +9,7 @@ Required Software
 * visual studio code (https://code.visualstudio.com/)
 * github desktop (https://desktop.github.com/) - you'll probably need a github account first
 * python (https://www.python.org/) - as of 2/28/25, 3.12 is the version used for development
+* docker desktop (https://www.docker.com/get-started/) 
 
 Required account access
 ---------------------------
