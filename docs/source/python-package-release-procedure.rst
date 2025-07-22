@@ -21,6 +21,7 @@ or using powershell
 
 .. code-block:: shell
 
+    pip freeze | out-file .\app\requirements.txt -encoding ascii
     pip freeze | out-file .\requirements.txt -encoding ascii
 
 -  commit requirements.txt before the following
