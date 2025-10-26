@@ -1,3 +1,9 @@
+(proxy_log_format) {
+    # need to use X-Forwarded-For if it exists -- see https://caddyserver.com/docs/caddyfile/matchers (remote_ip) and https://developers.cloudflare.com/support/troubleshooting/restoring-visitor-ips/restoring-original-visitor-ips/
+    format transform `{request>headers>X-Forwarded-For>[0]:request>remote_ip} - {user_id} [{ts}] "{request>method} {request>uri} {request>proto}" {status} {size} "{request>headers>Referer>[0]}" "{request>headers>User-Agent>[0]}"` {
+        time_format "02/Jan/2006:15:04:05 -0700"
+    }
+}
 {
     servers {
         # https://caddy.community/t/trusted-proxies-with-cloudflare-my-solution/16124/6
@@ -20,12 +26,24 @@ weewx2.lousbrews.info {
         dns cloudflare {env.CF_API_TOKEN}
     }
     log {
-        # need to use X-Forwarded-For if it exists -- see https://caddyserver.com/docs/caddyfile/matchers (remote_ip) and https://developers.cloudflare.com/support/troubleshooting/restoring-visitor-ips/restoring-original-visitor-ips/
-        format transform `{request>headers>X-Forwarded-For>[0]:request>remote_ip} - {user_id} [{ts}] "{request>method} {request>uri} {request>proto}" {status} {size} "{request>headers>Referer>[0]}" "{request>headers>User-Agent>[0]}"` {
-        time_format "02/Jan/2006:15:04:05 -0700"
-}
+        import proxy_log_format
         output file /var/log/caddy/weewx.lousbrews.info/access.log
     }
 
     reverse_proxy host.docker.internal:8080
+}
+
+# 3. Catch-all site block for unknown hosts
+# This address (https://) is very unspecific and will catch requests not matched
+# by the above hostnames on the HTTPS port (443).
+# see https://gemini.google.com/share/4775da3f299e
+https:// { 
+    # Log the request before rejecting
+    log {
+        import proxy_log_format
+        output file /var/log/caddy/unknown_hosts/access.log
+    }
+    
+    # Reject the request with a 403 Forbidden status
+    respond "Access Denied: Unknown Host" 403
 }
