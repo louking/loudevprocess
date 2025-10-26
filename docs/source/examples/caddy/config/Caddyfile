@@ -1,0 +1,31 @@
+{
+    servers {
+        # https://caddy.community/t/trusted-proxies-with-cloudflare-my-solution/16124/6
+        trusted_proxies cloudflare {
+            interval 12h
+            timeout 15s
+        }
+
+        client_ip_headers Cf-Connecting-Ip X-Forwarded-For X-Real-IP
+    }
+
+    log default {
+        format console
+        output file /var/log/caddy/caddy.log
+    }
+}
+
+weewx2.lousbrews.info {
+    tls {
+        dns cloudflare {env.CF_API_TOKEN}
+    }
+    log {
+        # need to use X-Forwarded-For if it exists -- see https://caddyserver.com/docs/caddyfile/matchers (remote_ip) and https://developers.cloudflare.com/support/troubleshooting/restoring-visitor-ips/restoring-original-visitor-ips/
+        format transform `{request>headers>X-Forwarded-For>[0]:request>remote_ip} - {user_id} [{ts}] "{request>method} {request>uri} {request>proto}" {status} {size} "{request>headers>Referer>[0]}" "{request>headers>User-Agent>[0]}"` {
+        time_format "02/Jan/2006:15:04:05 -0700"
+}
+        output file /var/log/caddy/weewx.lousbrews.info/access.log
+    }
+
+    reverse_proxy host.docker.internal:8080
+}

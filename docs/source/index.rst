@@ -17,6 +17,7 @@ loutility development process documentation
    linux-random-procedures
    development-environment
    docker
+   docker-server-create
    mysql-database-management
    linux-virtual-host-setup
    lamp-server-create

@@ -94,6 +94,8 @@ See https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache
     sudo systemctl start httpd.service
     sudo systemctl enable httpd.service
 
+.. _firewall-access:
+
 Firewall: allow certain access
 -------------------------------
 
@@ -103,7 +105,7 @@ Firewall: allow certain access
     sudo firewall-cmd --permanent --add-service=ssh
     sudo firewall-cmd --permanent --add-service=http
     sudo firewall-cmd --permanent --add-service=https
-    sudo firewall-cmd --permanent --add-service=smtp
+    sudo firewall-cmd --permanent --add-service=smtp # is this needed?
     sudo firewall-cmd --reload
     sudo systemctl enable firewalld
 
@@ -266,6 +268,8 @@ https://blog.remirepo.net/post/2016/04/16/My-PHP-Workstation
         ---
         >     SetHandler "proxy:fcgi://127.0.0.1:9074"
     sudo apachectl restart
+
+.. _install-docker:
 
 Install and start Docker
 ============================

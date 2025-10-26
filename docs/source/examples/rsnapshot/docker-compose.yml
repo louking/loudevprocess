@@ -1,0 +1,20 @@
+# see https://hub.docker.com/r/linuxserver/rsnapshot
+services:
+  rsnapshot:
+    image: lscr.io/linuxserver/rsnapshot:latest
+    container_name: rsnapshot
+    environment:
+      - PUID=0 #root
+      - PGID=0 #root
+      - TZ=America/New_York
+    volumes:
+      - ./config:/config
+      - /mnt/backup/snapshots:/.snapshots
+      - ./custom-init:/custom-cont-init.d:ro
+      - /home:/home-host
+      - ./msmtprc:/etc/msmtprc:ro
+      - /etc:/etc-host
+      - /usr/local:/usr/local-host
+      - /root:/root-host
+    restart: unless-stopped
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# use msmtp for sendmail, need volume with /etc/msmtprc defined
+apk add --no-cache msmtp && rm /usr/sbin/sendmail && ln -s /usr/bin/msmtp /usr/sbin/sendmail
+
