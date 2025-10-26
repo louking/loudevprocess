@@ -85,8 +85,10 @@ https://github.com/WeidiDeng/caddy-cloudflare-ip,
 https://roelofjanelsinga.com/articles/using-caddy-ssl-with-cloudflare/, and
 https://caddy.community/t/trusted-proxies-with-cloudflare-my-solution/16124/6 )
 
-Note the caddy-backend-network is shared with the webapp containers to allow
-caddy to reverse proxy for the webapps.
+Note in ``docker-compose.yml`` the caddy-backend-network is shared with the
+webapp containers to allow caddy to reverse proxy for the webapps.
+
+Note in ``Caddyfile``, the reverse_proxy port must match the webapp port.
 
 ``.env``
 
