@@ -34,7 +34,7 @@ weewx2.lousbrews.info {
     reverse_proxy host.docker.internal:8080
 }
 
-# 3. Catch-all site block for unknown hosts
+# Catch-all site block for unknown hosts
 # This address (https://) is very unspecific and will catch requests not matched
 # by the above hostnames on the HTTPS port (443).
 # see https://gemini.google.com/share/4775da3f299e
