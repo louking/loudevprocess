@@ -1,0 +1,19 @@
+# see https://hub.docker.com/r/linuxserver/fail2ban
+
+services:
+  fail2ban:
+    image: lscr.io/linuxserver/fail2ban:latest
+    container_name: fail2ban
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    network_mode: host
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - TZ=America/New_York
+    volumes:
+      - $PWD/config:/config
+      - /var/log:/var/log:ro
+      - ../caddy/logs:/remotelogs/apache2:ro #optional
+    restart: unless-stopped

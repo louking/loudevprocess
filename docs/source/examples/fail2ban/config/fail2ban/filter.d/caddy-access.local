@@ -1,0 +1,6 @@
+# from https://www.ottorask.com/blog/caddy-and-fail2ban
+
+[Definition]
+failregex = ^<HOST>.*"(GET|POST|OPTION).*" (4[0-9][0-9])[ \d]*$
+ignoreregex =
+

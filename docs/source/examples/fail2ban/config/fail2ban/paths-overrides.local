@@ -1,0 +1,6 @@
+[DEFAULT]
+
+apache_error_log = /remotelogs/apache2/*/error.log
+apache_access_log = /remotelogs/apache2/*/access.log
+
+syslog_authpriv = %(var_log_path)s/secure

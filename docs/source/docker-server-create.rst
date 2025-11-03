@@ -64,6 +64,7 @@ chmod this directory to 700 so that only root can read the backup data.
 
 .. literalinclude:: examples/rsnapshot/custom-init/rsnapshot-init
 
+From this directory, start the service with ``docker compose up -d``
 
 Set up caddy
 ===============================
@@ -109,6 +110,37 @@ Note in ``Caddyfile``, the reverse_proxy port must match the webapp port.
 
 .. literalinclude:: examples/caddy/config/Caddyfile
 
+From this directory, start the service with ``docker compose up -d``
+
+Set up fail2ban
+============================
+Create the following files on the server, in /home/appuser/fail2ban
+
+``.env``
+
+::
+
+    USER_ID=[fail2ban user id]
+    GROUP_ID=[fail2ban user group id]
+
+``docker-compose.yml``
+
+.. literalinclude:: examples/fail2ban/docker-compose.yml
+
+``config/fail2ban/jail.local``
+
+.. literalinclude:: examples/fail2ban/config/fail2ban/jail.local
+
+``config/fail2ban/paths-overrides.local``
+
+.. literalinclude:: examples/fail2ban/config/fail2ban/paths-overrides.local
+
+``config/fail2ban/filter.d/caddy-access.local``
+
+.. literalinclude:: examples/fail2ban/config/fail2ban/filter.d/caddy-access.local
+
+From this directory, start the service with ``docker compose up -d``
+
 Set up web site 
 ===============================
 Create the following files on the server, in /home/appuser/[website]
@@ -128,3 +160,6 @@ template files can be stored in ``/home/appuser/webapp/templates``. See https://
 ``html/index.html``
 
 .. literalinclude:: examples/webapp/html/index.html
+
+From this directory, start the service with ``docker compose up -d``
+

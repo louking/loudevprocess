@@ -1,0 +1,53 @@
+#
+
+[DEFAULT]
+
+destemail = [email for errors]
+
+bantime = 1h
+
+# Default banning action (e.g. iptables, iptables-new,
+# iptables-multiport, shorewall, etc) It is used to define
+# action_* variables. Can be overridden globally or per
+# section within jail.local file
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+[sshd]
+enabled = true
+
+[apache-auth]
+enabled = false
+
+[apache-badbots]
+enabled = true
+
+[apache-noscript]
+enabled = false
+
+[apache-overflows]
+enabled = false
+
+[apache-nohome]
+enabled = false
+
+[apache-botsearch]
+enabled = false
+
+[apache-fakegooglebot]
+enabled = true
+
+[apache-modsecurity]
+enabled = false
+
+[apache-shellshock]
+enabled = false
+
+[caddyaccess]
+enabled = true
+filter = caddy-access
+logpath = %(apache_access_log)s
+port = http,https
+maxretry = 5
+findtime = 30
+bantime = 600
