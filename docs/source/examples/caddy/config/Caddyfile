@@ -5,6 +5,12 @@
     }
 }
 
+(proxy_log_rotate) {
+    roll_size 10MB    # Rotate when log file reaches 10MB
+    roll_keep 2       # Keep 2 rotated log files
+    roll_keep_for 168h  # Keep rotated files for 7 days
+}
+
 {
     servers {
         # https://caddy.community/t/trusted-proxies-with-cloudflare-my-solution/16124/6
@@ -28,7 +34,9 @@ weewx2.lousbrews.info {
     }
     log {
         import proxy_log_format
-        output file /var/log/caddy/weewx.lousbrews.info/access.log
+        output file /var/log/caddy/weewx.lousbrews.info/access.log {
+            import proxy_log_rotate
+        }
     }
 
     reverse_proxy host.docker.internal:8080
