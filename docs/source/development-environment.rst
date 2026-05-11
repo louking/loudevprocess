@@ -51,7 +51,10 @@ Development System Configuration
 * create and populate databases
 
   * ``.env`` file variables are used to name and create the database
-  * get sql import file(s) from Lou -- these go into the db_init directory
+  * get sql import file(s) for users and [app] from Lou -- these go into the db_init directory
+  
+    * restart mysql-docker app service
+    * restart [app] app service
 
 Supporting images
 --------------------
