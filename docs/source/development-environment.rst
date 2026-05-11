@@ -28,13 +28,15 @@ Development System Configuration
     * https://www.lastpass.com/features/password-generator is a good way to generate passwords, 
       best not top use symbols as sometimes they cause issues 
 
-  * create ``db_init`` directory (this will get sql import files -- note the sql file gets deleted after import)
+  * create ``db_init`` directory (this will get sql import files -- note the sql
+    file gets deleted after import) -- NOTE: it's best to create one db_init directory
+    for all apps
 
 * create ``.env`` file (get example from Lou)
 
   * update ``*_HOST`` variables to match your development environment
   * set COMPOSE_FILE="docker-compose.yml;docker-compose.dev.yml;C:\Users\lking\Documents\...\docker-compose-caddy-network.yml"
-    * (you'll have to replace ...)
+    * (you'll have to replace ... from above, of course)
 
 * create and populate python virtual env (https://docs.python.org/3/library/venv.html)
 
@@ -49,7 +51,7 @@ Development System Configuration
 * create and populate databases
 
   * ``.env`` file variables are used to name and create the database
-  * get sql import file(s) from Lou -- these go into the db_init 
+  * get sql import file(s) from Lou -- these go into the db_init directory
 
 Supporting images
 --------------------
@@ -76,7 +78,19 @@ After creating and committing the file, change its permissions in git
 
 then commit as normal
 
-Docker files
+Create admin users
+-----------------------
+
+The sql files supplied from Lou have been anonymized. The first user in the
+users*.sql file, user1@example.com, is the superadmin. In order for you to log
+in as superadmin, you'll need to enter the following shell command from the app shell:
+
+  .. code-block:: shell
+
+    flask users change_password --password password user1@example.com
+
+Then you should be able to log in with username `user1@example.com`, password `password`
+
 --------------
 Example docker files can be found at https://github.com/louking/webmodules, with the latest docker-skeleton-vx.x tag
 
