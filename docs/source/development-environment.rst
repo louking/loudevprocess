@@ -6,7 +6,7 @@ This document assumes a windows based development environment.
 Required Software
 -----------------------------
 
-* visual studio code (https://code.visualstudio.com/)
+* cursor (https://cursor.com/download) or visual studio code (https://code.visualstudio.com/)
 * github desktop (https://desktop.github.com/) - you'll probably need a github account first
 * python (https://www.python.org/) - as of 2/28/25, 3.12 is the version used for development
 * docker desktop (https://www.docker.com/get-started/) 
@@ -33,10 +33,12 @@ Development System Configuration
 * create ``.env`` file (get example from Lou)
 
   * update ``*_HOST`` variables to match your development environment
+  * set COMPOSE_FILE="docker-compose.yml;docker-compose.dev.yml;C:\Users\lking\Documents\...\docker-compose-caddy-network.yml"
+    * (you'll have to replace ...)
 
 * create and populate python virtual env (https://docs.python.org/3/library/venv.html)
 
-  use the following or let vscode do it for you
+  use the following or let cursor/vscode do it for you
 
   .. code-block:: shell
 
@@ -47,8 +49,20 @@ Development System Configuration
 * create and populate databases
 
   * ``.env`` file variables are used to name and create the database
-  * get sql import file(s) from Lou -- these go into the de_init 
+  * get sql import file(s) from Lou -- these go into the db_init 
 
+Supporting images
+--------------------
+You will want to get these docker stacks up and running before the app
+
+* https://github.com/louking/caddy-docker
+  * you don't have to worry about certbot from the development system
+  * this facilitates development of multiple apps at the same time, and coordinates with launch.json's Launch Chrome
+
+* https://github.com/louking/mysql-docker
+  * as of this writing, the readme file is weak -- hopefully that will be improved
+  * this stack supports the users database
+  
 Shell file permissions
 --------------------------
 If a shell file is created in a Windows development environment, it won't have execute permission when pushed to 
@@ -93,10 +107,21 @@ Development vs Production via docker compose
 
 Build and start app in development, no debugging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+update `COMPOSE_FILE` in `.env` appropriately
+
+e.g., (note separator is ; for Windows : for Linux)
+
+  .. code-block:: environment
+
+    COMPOSE_FILE="docker-compose.yml;docker-compose.dev.yml;C:\Users\lking\Documents\Lou's Software\projects\docker-compose-caddy-network.yml"
+
+    COMPOSE_FILE="docker-compose.yml;docker-compose.dev.yml;docker-compose.loutilities.yml;C:\Users\lking\Documents\Lou's Software\projects\docker-compose-caddy-network.yml"
+
+then
 
   .. code-block:: shell
 
-    docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d
+    docker compose up --build -d
 
 or ctrl-p task up (or task dev)
 
@@ -107,7 +132,7 @@ Run
 
   .. code-block:: shell
 
-    docker compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.debug.yml up --build -d
+    docker compose up --build -d
 
 then start debugger with vscode 
 
@@ -116,7 +141,7 @@ Build and start app in Production
 
   .. code-block:: shell
 
-    docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+    docker compose up --build -d
 
 
 
